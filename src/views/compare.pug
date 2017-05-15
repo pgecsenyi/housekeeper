@@ -1,0 +1,109 @@
+extends layout
+
+//- Head: additional scripts and styles.
+block head
+  script(type='text/javascript', src='/javascripts/chart.js')
+//- Body / header.
+block header
+  .left
+    a(href='/')= t('Summary')
+  .right
+    div= t(category)
+      |  &#8212; #{estate}
+  .center
+    if year1 && year2
+      a(href='javascript:history.back();', title=t('Back'))= t('Compare {{year1}} and {{year2}}', { year1: year1, year2: year2 })
+    else
+      a(href='javascript:history.back();', title=t('Back'))= t('Compare')
+//- Body / content.
+block content
+  if !data || data.consumptionYear1.length <= 0 || data.consumptionYear2.length <= 0 || data.months.length <= 0
+    .fragment.data-fragment
+      .fragment-interior
+        p.message-no-data= t('No data available')
+  else
+    //- Consumptions by month.
+    .fragment.chart-fragment
+      .fragment-interior.chart-fragment-interior
+        h1= t('Consumptions by month')
+        canvas(id='lineChart')
+        script(type='text/javascript').
+          var data = {
+            labels: !{JSON.stringify(data.months)},
+            datasets: [
+              {
+                data: [#{data.consumptionYear2}],
+                label: '#{year2}',
+                fillColor: 'rgba(170,170,170,0.2)',
+                pointColor: 'rgba(170,170,170,1)',
+                pointStrokeColor: 'rgba(170,170,170,1)',
+                pointHighlightFill: 'rgba(100,100,100,0.1',
+                pointHighlightStroke: 'rgba(170,170,170,1)',
+                strokeColor: 'rgba(170,170,170,1)'
+              },
+              {
+                data: [#{data.consumptionYear1}],
+                label: '#{year1}',
+                fillColor: 'rgba(239,157,14,0.2)',
+                pointColor: 'rgba(239,157,14,1)',
+                pointStrokeColor: '#CE860A',
+                pointHighlightFill: 'rgba(239,157,14,0.1)',
+                pointHighlightStroke: 'rgba(239,157,17,1)',
+                strokeColor: 'rgba(239,157,14,1)'
+              }
+            ]
+          };
+          var ctx = document.getElementById('lineChart').getContext('2d');
+          var options = {
+            animation: !{JSON.stringify(animation)},
+            responsive : true,
+            scaleFontColor : '#555'
+          }
+          var myLineChart = new Chart(ctx).Line(data, options);
+    //- Consumptions by year.
+    .fragment.chart-fragment
+      .fragment-interior.chart-fragment-interior
+        h1= t('Consumptions by year')
+        canvas(id='pieChart')
+        script(type='text/javascript').
+          var data = [
+            {
+              value: #{data.sumYear1},
+              color: 'rgb(239,157,14)',
+              highlight: 'rgba(239,157,14,0.5)',
+              label: '#{year1}'
+            },
+            {
+              value: #{data.sumYear2},
+              color: 'rgb(170,170,170)',
+              highlight: 'rgba(170,170,170,0.5)',
+              label: '#{year2}'
+            }
+          ];
+          var ctx = document.getElementById('pieChart').getContext('2d');
+          var options = {
+            animateRotate: !{JSON.stringify(animation)},
+            animateScale : !{JSON.stringify(animation)},
+            responsive: true,
+            segmentStrokeColor: '#DADADA',
+            segmentStrokeWidth: 1
+          }
+          var myPieChart = new Chart(ctx).Pie(data, options);
+    //- Consumption details in a table.
+    .fragment.data-fragment
+      .fragment-interior
+        h1= t('Consumption details in a table')
+        table.data-table
+          tr
+            th= t('Date')
+            th.data-table-consumption= t('Consumption')
+              |  (#{year1})
+              |  [!{unit}]
+            th.data-table-consumption= t('Consumption')
+              |  (#{year2})
+              |  [!{unit}]
+          each value, index in data.consumptionYear1
+            tr
+              td= data.months[index]
+              td.data-table-consumption= value
+              td.data-table-consumption= data.consumptionYear2[index]

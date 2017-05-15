@@ -1,0 +1,45 @@
+extends layout
+
+//- Head: additional scripts and styles.
+block head
+  script(type='text/javascript', src='/javascripts/jquery.js')
+  script(type='text/javascript', src='/javascripts/jquery-ui.js')
+  link(rel='stylesheet', href='/stylesheets/jquery-ui.css')
+  link(rel='stylesheet', href='/stylesheets/jquery-ui-theme.css')
+//- Body / header.
+block header
+  .left
+    a(href='/')= t('Summary')
+  .right
+    if category
+      div= t(category.name)
+        |  &#8212; #{estate}
+  .center
+    div= t('Edit')
+//- Body / content.
+block content
+  //- Warning.
+  if validationError
+    .fragment.warning-fragment
+      .fragment-interior
+        div= t(validationError)
+  //- Input form.
+  .fragment.large-input-fragment
+    .fragment-interior
+      form(method='post')
+        label(for='readingValue')= t('Reading')
+        input(type='text', name='readingValue', value=inputValue)
+        br
+        label(for='readingDate')= t('Date')
+        input(type='text', name='readingDate', id='date-picker', value=inputDate)
+        br
+        label(for='readingNote')= t('Note')
+        input(type='text', name='readingNote', value=inputNote)
+        br
+        input(type='hidden', name='readingId', value=reading.id)
+        input(type='submit', value=t("Save"))
+  //- Create interactive calendar.
+  script(type='text/javascript').
+    $('#date-picker').datepicker({ dateFormat: 'yy.mm.dd.' });
+    $('.fragment.warning-fragment').hide();
+    $('.fragment.warning-fragment').fadeIn(800);

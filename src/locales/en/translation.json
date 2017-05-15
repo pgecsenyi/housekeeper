@@ -1,0 +1,13 @@
+{
+  "The application is now installed": "The application is now installed.",
+
+  "Compare the data from the year on the left with the data from the following year": "Compare the data from the year on the left with the data from the following year...",
+  "Hint on compare": "In order to compare the data of two years, select a year on the left first.",
+  "Invalid category": "Invalid category.",
+	"Invalid date": "Invalid date.",
+  "Invalid estate": "Invalid estate.",
+	"Invalid reading": "Invalid reading.",
+  "Invalid reading identifier": "Invalid reading identifier.",
+  "Invalid years": "Invalid years.",
+  "No data available": "No data available."
+}

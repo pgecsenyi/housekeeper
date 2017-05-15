@@ -1,0 +1,136 @@
+extends layout
+
+//- Head: additional scripts and styles.
+block head
+  script(type='text/javascript', src='/javascripts/jquery.js')
+  script(type='text/javascript', src='/javascripts/jquery-ui.js')
+  script(type='text/javascript', src='/javascripts/jquery.dropdown.js')
+  script(type='text/javascript', src='/javascripts/chart.js')
+  link(rel='stylesheet', href='/stylesheets/jquery-ui.css')
+  link(rel='stylesheet', href='/stylesheets/jquery-ui-theme.css')
+  link(rel='stylesheet', href='/stylesheets/jquery.dropdown.css')
+//- Body / header.
+block header
+  .left
+    a(href='/')= t('Summary')
+  .right
+    div= t(category)
+      |  &#8212; #{estate}
+  .center
+    a(href='#', data-jq-dropdown='#options-selector')
+      if selectedYear
+        span= selectedYear
+      else
+        span= t('The last 12 records')
+//- Body / content.
+block content
+  - var isChartDataAvailable = consumptions && consumptions.length > 2
+  //- Year selector for the header.
+  div(id='options-selector', class='jq-dropdown jq-dropdown-anchor-center jq-dropdown-tip')
+    .jq-dropdown-panel#details-nav-panel
+      #details-nav-panel-left
+        #details-nav-menu
+          ul
+            li
+              if selectedYear
+                a(href=url)= t('The last 12 records')
+              else
+                a#current= t('The last 12 records')
+            for year in years
+              li
+                if year === selectedYear
+                  a#current= year
+                else
+                  a(href='?year=' + year) #{year}
+      #details-nav-panel-right
+        if selectedYear && isChartDataAvailable
+          p.title= t('Compare')
+          form(method='post')
+            div= t('Compare the data from the year on the left with the data from the following year')
+            select(name='yearToCompareWith')
+              for year in years
+                if year !== selectedYear
+                  option= year
+            div
+              input(type='submit', value=t('Compare'))
+        else
+          p= t('Hint on compare')
+  //- Chart.
+  if isChartDataAvailable
+    .fragment.chart-fragment
+      .fragment-interior.chart-fragment-interior
+        canvas(id='chart')
+        script(type='text/javascript').
+          var data = {
+            labels: !{JSON.stringify(monthNames)},
+            datasets: [
+              {
+                data: [#{consumptions}],
+                label: '#{category}',
+                fillColor: 'rgba(239,157,14,0.2)',
+                pointColor: 'rgba(239,157,14,1)',
+                pointStrokeColor: '#CE860A',
+                pointHighlightFill: 'rgba(239,157,14,0.5)',
+                pointHighlightStroke: 'rgba(239,157,17,1)',
+                strokeColor: 'rgba(239,157,14,1)'
+              }
+            ]
+          };
+          var ctx = document.getElementById('chart').getContext('2d');
+          var options = {
+            animation: !{JSON.stringify(animation)},
+            responsive: true,
+            scaleFontColor: '#555'
+          }
+          var myLineChart = new Chart(ctx).Line(data, options);
+  //- Warning.
+  if validationError
+    .fragment.warning-fragment
+      .fragment-interior
+        div= t(validationError)
+  //- Input form.
+  .fragment.input-fragment
+    .fragment-interior
+      form(method='post')
+        table.input-table#record-reading
+          tr
+            th= t('Date')
+            th= t('Reading')
+            th= t('Note')
+          tr
+            td
+              input(type='text', name='date', id='date-picker', value=inputDate)
+            td.input-table-consumption
+              input(type='text', name='reading', value=inputReading)
+            td.input-table-note
+              input(type='text', name='note', value=inputNote)
+            td
+              input(type='submit', value='+')
+  //- Table.
+  .fragment.data-fragment
+    .fragment-interior
+      if readings && readings.length > 0
+        table.data-table
+          tr
+            th= t('Date')
+            th.data-table-consumption= t('Reading')
+              |  [!{unit}]
+            th.data-table-consumption= t('Consumption')
+              |  [!{unit}]
+            th= t('Note')
+            th
+          for value in readings
+            tr
+              td #{value.date}
+              td.data-table-consumption #{value.value}
+              td.data-table-consumption #{value.consumption}
+              td.data-table-note #{value.note}
+              td
+                a(href='/edit/' + value.id)= t('Edit')
+      else
+        p.message-no-data= t('No data available')
+  //- Create interactive calendar.
+  script(type='text/javascript').
+    $('#date-picker').datepicker({ dateFormat: 'yy.mm.dd.' });
+    $('.fragment.warning-fragment').hide();
+    $('.fragment.warning-fragment').fadeIn(800);

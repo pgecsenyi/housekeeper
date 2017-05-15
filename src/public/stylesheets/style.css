@@ -1,0 +1,349 @@
+@import "bootstrap.css";
+@import "bootstrap-theme.css";
+/***********************************************************************************************/
+/**
+ * Common.
+ **************************************************************************************************/
+body {
+  background: #f2dca2;
+  color: #444;
+  font: 1.4em "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin: 0;
+}
+h1 {
+  background-color: inherit;
+  color: #444;
+  font-size: 1.8em;
+  margin: 0.8em;
+  text-align: center;
+}
+a {
+  color: #00b7ff;
+}
+input[type='button'],
+input[type='submit'],
+select {
+  background-color: #eee;
+  color: #000;
+  border: 0.2em solid #eee;
+  padding: 0.2em 1em;
+}
+input[type='button']:hover,
+input[type='submit']:hover {
+  background-color: #ef9d0e;
+  color: #fff;
+  border: 0.2em solid #ef9d0e;
+  padding: 0.2em 1em;
+}
+input[type='text'] {
+  background-color: #f9e8bb;
+  border: 0.2em solid #c9b784;
+  padding: 0.3em;
+}
+div.link-button-container {
+  margin: 2.5em 0.2em 0.4em 0.2em;
+}
+a.link-button {
+  background-color: inherit;
+  border: 0.1em solid #444;
+  border-radius: 0.5em;
+  color: #444;
+  padding: 0.5em 2em;
+  text-decoration: none;
+}
+a.link-button:hover {
+  background-color: #ef9d0e;
+  border-color: #ef9d0e;
+  color: #fff;
+}
+.message-error {
+  font-size: 2em;
+  margin: 1.5em;
+}
+.message-no-data {
+  font-size: 1.4em;
+  margin: 0.8em;
+  text-align: center;
+}
+/***********************************************************************************************/
+/**
+ * Header.
+ **************************************************************************************************/
+#header {
+  background: #ef9d0e;
+  color: #fff;
+  font-size: 1.1em;
+  margin: 0em;
+  padding: 0.1em;
+  padding: 0.5em;
+  width: 100%;
+}
+#header a {
+  background: inherit;
+  color: #fff;
+  text-decoration: none;
+}
+#header a:hover {
+  text-decoration: underline;
+}
+#header input {
+  background-color: #ef9d0e;
+  border: 0.1em solid #fff;
+  color: #fff;
+  margin: 0 0.3em;
+  padding: 0.05em 0.6em;
+}
+#header select {
+  background-color: #ef9d0e;
+  border: 0.1em solid #fff;
+  color: #fff;
+  padding: 0;
+}
+#header .center {
+  margin: 0 auto;
+  text-align: center;
+  width: 30%;
+}
+#header .left {
+  float: left;
+  text-align: left;
+  width: 30%;
+}
+#header .right {
+  float: right;
+  text-align: right;
+  width: 30%;
+}
+.header-interior {
+  margin: 0 auto;
+  max-width: 800px;
+}
+/***********************************************************************************************/
+/**
+ * Fragments.
+ **************************************************************************************************/
+.fragment {
+  margin: 0;
+  padding: 0.8em;
+}
+.fragment.chart-fragment {
+  background-color: #e8d5a2;
+  color: #000;
+  padding: 2.4em 0;
+}
+.fragment.data-fragment {
+  padding: 2.4em 0;
+}
+.fragment.error-fragment {
+  background-color: inherit;
+  color: #444;
+  text-align: center;
+  padding: 2em 1em;
+}
+.fragment.warning-fragment {
+  background-color: #a32809;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  padding: 1em;
+}
+.fragment.estate-description-fragment {
+  background-color: #d8c693;
+  color: #000;
+  padding: 0.5em 2em;
+  text-align: left;
+}
+.fragment.large-input-fragment {
+  font-size: 1.3em;
+  padding: 2em 0;
+  text-align: left;
+}
+.fragment.setup-fragment {
+  text-align: center;
+}
+.fragment.summary-fragment {
+  margin: 5em 0;
+  text-align: center;
+}
+.fragment.input-fragment {
+  background-color: #d8c693;
+  color: inherit;
+  text-align: center;
+}
+.fragment-interior {
+  margin: 0 auto;
+  max-width: 800px;
+}
+.fragment-interior.chart-fragment-interior {
+  max-width: 700px;
+}
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 800px;
+}
+/***********************************************************************************************/
+/**
+ * Fragments / Large input fragment.
+ **************************************************************************************************/
+.fragment.large-input-fragment {
+  text-align: right;
+}
+.fragment.large-input-fragment input[type='text'] {
+  margin: 0.3em auto;
+  padding: 0.2em;
+  width: 70%;
+}
+.fragment.large-input-fragment input[type='submit'] {
+  float: right;
+  margin: 1em 0;
+}
+.fragment.large-input-fragment label {
+  float: left;
+  margin: 0.6em 0.5em 0.2em 1em;
+  text-align: left;
+  width: 8em;
+}
+/***********************************************************************************************/
+/**
+ * Tables.
+ **************************************************************************************************/
+.data-table {
+  background-color: inherit;
+  color: #000;
+  border-bottom: 0.3em solid #e9c984;
+  font-size: 1.2em;
+  text-align: left;
+  margin: 1em auto;
+  max-width: 100%;
+}
+.data-table tr {
+  border-bottom: 0.1em solid #e9c984;
+}
+.data-table tr td {
+  padding: 0.3em 0.8em;
+}
+.data-table tr th {
+  border-bottom: 0.2em solid #e9c984;
+  border-top: 0.3em solid #e9c984;
+  color: #000;
+  font-size: 1em;
+  text-align: center;
+  padding: 0.3em 1.3em;
+  vertical-align: top;
+}
+.data-table tr th.data-table-consumption {
+  max-width: 180px;
+}
+.data-table tr td.data-table-consumption {
+  text-align: right;
+}
+.input-table {
+  font-size: 1.3em;
+  text-align: left;
+  margin: 1em 0;
+  width: 100%;
+}
+.input-table tr th {
+  text-align: center;
+}
+.input-table tr td {
+  padding: 0.2em;
+}
+.input-table tr td.input-table-consumption {
+  text-align: right;
+}
+.input-table tr td input[type='text'] {
+  margin: 0 auto;
+  width: 100%;
+}
+.input-table tr td.input-table-consumption input[type='text'] {
+  text-align: right;
+}
+/***********************************************************************************************/
+/**
+ * Summary page.
+ **************************************************************************************************/
+.summary {
+  text-align: center;
+}
+.summary table {
+  border: 0;
+  margin: 0.8em auto;
+  width: 90%;
+  padding: 0.1em;
+}
+.summary table tr {
+  border-bottom: 0.1em solid #e9c984;
+}
+.summary table tr:last-child {
+  border-bottom: none;
+}
+.summary table tr td {
+  padding: 0.3em;
+}
+.summary table tr td.description {
+  background-color: inherit;
+  color: #777;
+  font-size: 0.9em;
+  font-weight: bold;
+  padding-right: 1.5em;
+  text-align: left;
+  text-transform: uppercase;
+}
+.summary table tr td.value {
+  padding-left: 1.5em;
+  text-align: right;
+}
+/***********************************************************************************************/
+/**
+ * Details page.
+ **************************************************************************************************/
+#details-nav-panel {
+  display: table;
+  padding: 0;
+}
+#details-nav-panel input {
+  margin: 0.5em;
+}
+#details-nav-panel-left {
+  border-right: 0.2em solid #ededed;
+  display: table-cell;
+  padding: 0.8em 0.5em 0.1em 0.5em;
+  text-align: left;
+}
+#details-nav-panel-right {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0.3em;
+  text-align: center;
+}
+#details-nav-panel-right .title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+#details-nav-menu ul {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+#details-nav-menu a {
+  background-color: inherit;
+  display: block;
+  padding: 0.2em 0.8em 0.2em 0.6em;
+}
+#details-nav-menu a:link,
+#details-nav-menu a:visited {
+  color: #000;
+  text-decoration: none;
+}
+#details-nav-menu a:hover {
+  background-color: #ededed;
+  color: #000;
+}
+#details-nav-menu a#current {
+  background-color: inherit;
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+}

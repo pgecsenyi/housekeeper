@@ -1,0 +1,37 @@
+{
+  "name": "housekeeper",
+  "version": "0.2.0",
+  "description": "A Node.js web application which helps you store and monitor your power consumption, gas consumption, water consumption and so on.",
+  "author": "pgecsenyi",
+  "license": "MIT",
+  "repository": "https://github.com/pgecsenyi/housekeeper.git",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "engines": {
+    "node": "^6.0.0",
+    "npm": "^3.8.9"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "connect-timeout": "~1.7.0",
+    "cookie-parser": "~1.4.2",
+    "cookie-session": "~2.0.0-alpha.1",
+    "date-format-lite": "~0.7.4",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "i18next": "~3.1.0",
+    "i18next-express-middleware": "~1.0.1",
+    "i18next-node-fs-backend": "0.1.2",
+    "log4js": "~0.6.33",
+    "minimist": "~1.2.0",
+    "morgan": "~1.7.0",
+    "nconf": "~0.8.4",
+    "node-markdown": "~0.1.1",
+    "pug": "^2.0.0-alpha7",
+    "q": "~1.4.1",
+    "serve-favicon": "~2.3.0",
+    "sqlite3": "~3.1.1",
+    "stylus": "0.54.5"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "database": {
+    "path": "../data/data.db"
+  },
+  "display": {
+    "decimal" : 3,
+    "title": "Housekeeper"
+  },
+  "log": {
+    "console": true,
+    "file": false,
+    "filePath": "../data/log.txt"
+  },
+  "addressFilter": {
+    "isFilteringEnabled" : false,
+    "allowedAddresses" : [ "127.0.0.1" ]
+  }
+}

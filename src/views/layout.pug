@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='icon', href='/images/favicon.ico')
+    link(rel='icon', href='/images/favicon-16x16.png', type='image/png', sizes='16x16')
+    link(rel='icon', href='/images/favicon-32x32.png', type='image/png', sizes='32x32')
+    link(rel='icon', href='/images/favicon-48x48.png', type='image/png', sizes='48x48')
+    link(rel='icon', href='/images/favicon-256x256.png', type='image/png', sizes='256x256')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    block head
+  body
+    #header
+      .header-interior
+        block header
+        div(style='clear: both')
+    block content

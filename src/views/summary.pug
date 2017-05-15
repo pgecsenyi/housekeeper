@@ -1,0 +1,98 @@
+extends layout
+
+block header
+  .right
+    form(method='post')
+      select(name='estate')
+        for estate in estates
+          if estateId && estate.id == estateId
+            option(value=estate.id, selected='selected') #{estate.name}
+          else
+            option(value=estate.id) #{estate.name}
+      input(type='submit', value=t("Select"))
+  .center
+    div= t('Summary')
+block content
+  //- Handle wrong estate IDs.
+  if errorWrongEstateId
+    .fragment.error-fragment
+      .message-error= t('Invalid estate')
+  else
+    script(type='text/javascript').
+      function changeImage(element, img) {
+        element.src = img;
+      }
+    //- Summary.
+    if data.length > 0
+      .fragment.summary-fragment
+        .fragment-interior
+          .container-fluid
+            .row
+              .col-md-4
+                a(href='details/1')
+                  img(
+                    src='images/electricity.png',
+                    width='200',
+                    height='200',
+                    onmouseover='changeImage(this,"images/electricity-hover.png")',
+                    onmouseout='changeImage(this,"images/electricity.png")')
+                .summary
+                  table
+                    tr
+                      td.description= t('Last')
+                      td.value !{data[1].value}
+                    tr
+                      td.description= t('Date')
+                      td.value #{data[1].date}
+                    tr
+                      td.description= t('Avg')
+                      td.value !{data[1].avg}
+                div.link-button-container
+                  a(href='details/1#record-reading').link-button #{t('Record reading')}
+              .col-md-4
+                a(href='details/2')
+                  img(
+                    src='images/gas.png',
+                    width='200',
+                    height='200',
+                    onmouseover='changeImage(this,"images/gas-hover.png")',
+                    onmouseout='changeImage(this,"images/gas.png")')
+                .summary
+                  table
+                    tr
+                      td.description= t('Last')
+                      td.value !{data[2].value}
+                    tr
+                      td.description= t('Date')
+                      td.value #{data[2].date}
+                    tr
+                      td.description= t('Avg')
+                      td.value !{data[2].avg}
+                div.link-button-container
+                  a(href='details/2#record-reading').link-button #{t('Record reading')}
+              .col-md-4
+                a(href='details/3')
+                  img(
+                    src='images/water.png',
+                    width='200',
+                    height='200',
+                    onmouseover='changeImage(this,"images/water-hover.png")',
+                    onmouseout='changeImage(this,"images/water.png")')
+                .summary
+                  table
+                    tr
+                      td.description= t('Last')
+                      td.value !{data[3].value}
+                    tr
+                      td.description= t('Date')
+                      td.value #{data[3].date}
+                    tr
+                      td.description= t('Avg')
+                      td.value !{data[3].avg}
+                div.link-button-container
+                  a(href='details/3#record-reading').link-button #{t('Record reading')}
+    //- Description.
+    if description != ''
+      .fragment.estate-description-fragment
+        .fragment-interior
+          div !{description}

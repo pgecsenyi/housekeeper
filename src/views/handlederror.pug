@@ -1,0 +1,6 @@
+extends layout
+
+block content
+  .fragment.error-fragment
+    .message-error= t(error.message)
+    a(href='/').link-button #{t('Go to Summary page')}

@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .fragment.setup-fragment
+    .fragment-interior
+      if error
+        #message.error #{error}
+    .fragment.large-input-fragment
+      .fragment-interior
+        form(method='post')
+          label(for='estates')= t('Estates')
+          input(type='text', name='estates', value=estates)
+          br
+          label(for='categories')= t('Categories')
+          input(type='text', name='categories', value=categories)
+          br
+          input(type='submit', value=t("Install"))
