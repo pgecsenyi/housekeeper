@@ -1,6 +1,6 @@
 # Housekeeper
 
-Housekeeper is a Node.js web application which helps you store and monitor your power consumption, gas consumption, water consumption and so on.
+A web application that helps with storing and monitoring energy consumptions of real estates.
 
 ## Installation and usage
 
