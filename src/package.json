@@ -6,6 +6,7 @@
   "license": "MIT",
   "repository": "https://github.com/pgecsenyi/housekeeper.git",
   "scripts": {
+    "lint": "eslint -c .eslintrc.json *.js */*.js --ignore-pattern public/javascripts/",
     "start": "node ./bin/www"
   },
   "engines": {
@@ -33,5 +34,8 @@
     "serve-favicon": "^2.4.3",
     "sqlite3": "^3.1.10",
     "stylus": "^0.54.5"
+  },
+  "devDependencies": {
+    "eslint": "^4.6.1"
   }
 }

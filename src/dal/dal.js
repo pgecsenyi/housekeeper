@@ -229,13 +229,13 @@ function getReadings(estateId, categoryId, limit, year, includeLastFromPrevYear)
       + limitClause,
     queryParameters,
     function (error, rows) {
-        if (error !== null) {
-          logError(error);
-          deferred.reject(error);
-          return;
-        }
-        deferred.resolve(rows);
+      if (error !== null) {
+        logError(error);
+        deferred.reject(error);
+        return;
       }
+      deferred.resolve(rows);
+    }
   );
 
   closeDatabase(db);
@@ -253,19 +253,19 @@ function getReadingsFor2Years(estateId, categoryId, year1, year2) {
       + ' AND (strftime("%Y", date) == $year1 OR strftime("%Y", date) == $year2)'
       + ' ORDER BY date DESC',
     {
-        $estateId : estateId,
-        $categoryId : categoryId,
-        $year1 : year1,
-        $year2 : year2
-      },
+      $estateId : estateId,
+      $categoryId : categoryId,
+      $year1 : year1,
+      $year2 : year2
+    },
     function (error, rows) {
-        if (error !== null) {
-          logError(error);
-          deferred.reject(error);
-          return;
-        }
-        deferred.resolve(rows);
+      if (error !== null) {
+        logError(error);
+        deferred.reject(error);
+        return;
       }
+      deferred.resolve(rows);
+    }
   );
 
   closeDatabase(db);

@@ -24,9 +24,7 @@ var paramCollector = require('./utils/paramcollector');
 
 var configFilePath = 'config.json';
 var isInDebugMode = false;
-/*jslint nomen: true*/
 var workingDirectory = __dirname;
-/*jslint nomen: false*/
 
 /*******************************************************************************************************************//**
  * Functions.
@@ -45,9 +43,7 @@ function configureAddressFilter() {
 
 function loadConfigurationFile() {
 
-  /*jslint node: true, stupid: true */
   if (!fs.existsSync(configFilePath)) {
-    /*jslint node: false, stupid: false */
     console.log('Configuration file not found.');
     process.exit(1);
   }
@@ -94,7 +90,7 @@ var decimal = nconf.get('display:decimal') === undefined ? 3 : nconf.get('displa
 var title = nconf.get('display:title') || '';
 var compare = require('./routes/compare')(dal, title, decimal);
 var details = require('./routes/details')(dal, title, decimal);
-var edit = require('./routes/edit')(dal, title, decimal);
+var edit = require('./routes/edit')(dal, title);
 var install = require('./routes/install')(dal, title, isInDebugMode);
 var summary = require('./routes/summary')(dal, title, decimal);
 

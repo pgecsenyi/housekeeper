@@ -15,7 +15,6 @@ var inputValidator = require('../utils/inputvalidator');
  **********************************************************************************************************************/
 
 var dal = null;
-var decimal = 0;
 var title = '';
 
 /*******************************************************************************************************************//**
@@ -200,11 +199,10 @@ router
  * Exports.
  **********************************************************************************************************************/
 
-module.exports = function (pDal, pTitle, pDecimal) {
+module.exports = function (pDal, pTitle) {
 
   dal = pDal;
   title = pTitle;
-  decimal = pDecimal;
 
   return router;
 };
