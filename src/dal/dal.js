@@ -7,7 +7,6 @@
 require('date-format-lite');
 
 var sqlite3 = require('sqlite3').verbose();
-var q = require('q');
 
 /*******************************************************************************************************************//**
  * Variables.
@@ -120,78 +119,75 @@ function executeSerial(func) {
 function getCategories(categoryId) {
 
   var db = getDatabase();
-  var deferred = q.defer();
 
-  db.all(
-    'SELECT id, name, unit FROM categories',
-    [categoryId],
-    function (error, rows) {
-      if (error !== null) {
-        logError(error);
-        deferred.reject(error);
-        return;
+  return new Promise((resolve, reject) => {
+    db.all(
+      'SELECT id, name, unit FROM categories',
+      [categoryId],
+      function (error, rows) {
+        if (error !== null) {
+          logError(error);
+          reject(error);
+          return;
+        }
+        resolve(rows);
       }
-      deferred.resolve(rows);
-    }
-  );
+    );
 
-  closeDatabase(db);
-
-  return deferred.promise;
+    closeDatabase(db);
+  });
 }
 
 function getCategory(categoryId) {
 
   var db = getDatabase();
-  var deferred = q.defer();
 
-  db.all(
-    'SELECT name, unit FROM categories WHERE id=? LIMIT 1',
-    [categoryId],
-    function (error, rows) {
-      if (error !== null) {
-        logError(error);
-        deferred.reject(error);
-        return;
+  return new Promise((resolve, reject) => {
+    db.all(
+      'SELECT name, unit FROM categories WHERE id=? LIMIT 1',
+      [categoryId],
+      function (error, rows) {
+        if (error !== null) {
+          logError(error);
+          reject(error);
+          return;
+        }
+        if (rows.length < 1) {
+          resolve(null);
+          return;
+        }
+        resolve(rows[0]);
       }
-      if (rows.length < 1) {
-        deferred.resolve(null);
-        return;
-      }
-      deferred.resolve(rows[0]);
-    }
-  );
+    );
 
-  closeDatabase(db);
-
-  return deferred.promise;
+    closeDatabase(db);
+  });
 }
 
 function getReading(readingId) {
 
   var db = getDatabase();
-  var deferred = q.defer();
 
-  db.all(
-    'SELECT id_estate, id_category, value, date, note, time_posted FROM readings WHERE id=? LIMIT 1',
-    [readingId],
-    function (error, rows) {
-      if (error !== null) {
-        logError(error);
-        deferred.reject(error);
-        return;
+  return new Promise((resolve, reject) => {
+    db.all(
+      'SELECT id_estate, id_category, value, date, note, time_posted FROM readings WHERE id=? LIMIT 1',
+      [readingId],
+      function (error, rows) {
+        if (error !== null) {
+          logError(error);
+          reject(error);
+          return;
+        }
+        if (rows.length < 1) {
+          resolve(null);
+          return;
+        }
+        resolve(rows[0]);
       }
-      if (rows.length < 1) {
-        deferred.resolve(null);
-        return;
-      }
-      deferred.resolve(rows[0]);
-    }
-  );
+    );
 
-  closeDatabase(db);
-
-  return deferred.promise;
+    closeDatabase(db);
+  });
 }
 
 function getReadings(estateId, categoryId, limit, year, includeLastFromPrevYear) {
@@ -220,150 +216,144 @@ function getReadings(estateId, categoryId, limit, year, includeLastFromPrevYear)
   }
 
   var db = getDatabase();
-  var deferred = q.defer();
 
-  db.all(
-    'SELECT id, value, date, note FROM readings WHERE id_estate=$estateId AND id_category=$categoryId'
-      + whereClause
-      + ' ORDER BY date DESC'
-      + limitClause,
-    queryParameters,
-    function (error, rows) {
-      if (error !== null) {
-        logError(error);
-        deferred.reject(error);
-        return;
+  return new Promise((resolve, reject) => {
+    db.all(
+      'SELECT id, value, date, note FROM readings WHERE id_estate=$estateId AND id_category=$categoryId'
+        + whereClause
+        + ' ORDER BY date DESC'
+        + limitClause,
+      queryParameters,
+      function (error, rows) {
+        if (error !== null) {
+          logError(error);
+          reject(error);
+          return;
+        }
+        resolve(rows);
       }
-      deferred.resolve(rows);
-    }
-  );
+    );
 
-  closeDatabase(db);
-
-  return deferred.promise;
+    closeDatabase(db);
+  });
 }
 
 function getReadingsFor2Years(estateId, categoryId, year1, year2) {
 
   var db = getDatabase();
-  var deferred = q.defer();
 
-  db.all(
-    'SELECT value, date, note FROM readings WHERE id_estate=$estateId AND id_category=$categoryId'
-      + ' AND (strftime("%Y", date) == $year1 OR strftime("%Y", date) == $year2)'
-      + ' ORDER BY date DESC',
-    {
-      $estateId : estateId,
-      $categoryId : categoryId,
-      $year1 : year1,
-      $year2 : year2
-    },
-    function (error, rows) {
-      if (error !== null) {
-        logError(error);
-        deferred.reject(error);
-        return;
+  return new Promise((resolve, reject) => {
+    db.all(
+      'SELECT value, date, note FROM readings WHERE id_estate=$estateId AND id_category=$categoryId'
+        + ' AND (strftime("%Y", date) == $year1 OR strftime("%Y", date) == $year2)'
+        + ' ORDER BY date DESC',
+      {
+        $estateId : estateId,
+        $categoryId : categoryId,
+        $year1 : year1,
+        $year2 : year2
+      },
+      function (error, rows) {
+        if (error !== null) {
+          logError(error);
+          reject(error);
+          return;
+        }
+        resolve(rows);
       }
-      deferred.resolve(rows);
-    }
-  );
+    );
 
-  closeDatabase(db);
-
-  return deferred.promise;
+    closeDatabase(db);
+  });
 }
 
 function getEstateDescription(estateId) {
 
   var db = getDatabase();
-  var deferred = q.defer();
 
-  db.all('SELECT description FROM estates WHERE id=? LIMIT 1', [estateId], function (error, rows) {
-    if (error !== null) {
-      logError(error);
-      deferred.reject(error);
-      return;
-    }
-    if (rows.length < 1) {
-      deferred.resolve(null);
-      return;
-    }
-    deferred.resolve(rows[0].description);
+  return new Promise((resolve, reject) => {
+    db.all('SELECT description FROM estates WHERE id=? LIMIT 1', [estateId], function (error, rows) {
+      if (error !== null) {
+        logError(error);
+        reject(error);
+        return;
+      }
+      if (rows.length < 1) {
+        resolve(null);
+        return;
+      }
+      resolve(rows[0].description);
+    });
+
+    closeDatabase(db);
   });
-
-  closeDatabase(db);
-
-  return deferred.promise;
 }
 
 function getEstateName(estateId) {
 
   var db = getDatabase();
-  var deferred = q.defer();
 
-  db.all('SELECT name FROM estates WHERE id=? LIMIT 1', [estateId], function (error, rows) {
-    if (error !== null) {
-      logError(error);
-      deferred.reject(error);
-      return;
-    }
-    if (rows.length < 1) {
-      deferred.resolve(null);
-      return;
-    }
-    deferred.resolve(rows[0].name);
+  return new Promise((resolve, reject) => {
+    db.all('SELECT name FROM estates WHERE id=? LIMIT 1', [estateId], function (error, rows) {
+      if (error !== null) {
+        logError(error);
+        reject(error);
+        return;
+      }
+      if (rows.length < 1) {
+        resolve(null);
+        return;
+      }
+      resolve(rows[0].name);
+    });
+
+    closeDatabase(db);
   });
-
-  closeDatabase(db);
-
-  return deferred.promise;
 }
 
 function getEstates() {
 
   var db = getDatabase();
-  var deferred = q.defer();
 
-  db.all('SELECT id, name FROM estates', [], function (error, rows) {
-    if (error !== null) {
-      logError(error);
-      deferred.reject(error);
-      return;
-    }
-    deferred.resolve(rows);
+  return new Promise((resolve, reject) => {
+    db.all('SELECT id, name FROM estates', [], function (error, rows) {
+      if (error !== null) {
+        logError(error);
+        reject(error);
+        return;
+      }
+      resolve(rows);
+    });
+
+    closeDatabase(db);
   });
-
-  closeDatabase(db);
-
-  return deferred.promise;
 }
 
 function getYears(estateId, categoryId) {
 
   var db = getDatabase();
-  var deferred = q.defer();
 
-  db.all(
-    'SELECT DISTINCT strftime("%Y", date) AS year FROM readings WHERE id_estate=? AND id_category=? ORDER BY year DESC',
-    [estateId, categoryId],
-    function (error, rows) {
-      if (error !== null) {
-        logError(error);
-        deferred.reject(error);
-        return;
+  return new Promise((resolve, reject) => {
+    db.all(
+      'SELECT DISTINCT strftime("%Y", date) AS year FROM readings WHERE id_estate=? AND id_category=? ORDER BY year DESC',
+      [estateId, categoryId],
+      function (error, rows) {
+        if (error !== null) {
+          logError(error);
+          reject(error);
+          return;
+        }
+        var i = 0;
+        var result = [];
+        for (i = 0; i < rows.length; i += 1) {
+          result.push(rows[i].year);
+        }
+        resolve(result);
       }
-      var i = 0;
-      var result = [];
-      for (i = 0; i < rows.length; i += 1) {
-        result.push(rows[i].year);
-      }
-      deferred.resolve(result);
-    }
-  );
+    );
 
-  closeDatabase(db);
-
-  return deferred.promise;
+    closeDatabase(db);
+  });
 }
 
 function insertCategory(name, unit) {
@@ -391,68 +381,64 @@ function insertEstate(name) {
 function insertReading(estateId, categoryId, value, date, note) {
 
   var db = getDatabase();
-  var deferred = q.defer();
-
   var timePosted = new Date().format('YYYY-MM-DD hh:mm:ss');
-
   var stmt = db.prepare(
     'INSERT INTO readings'
       + ' (id_estate, id_category, value, date, note, time_posted)'
       + ' VALUES (?, ?, ?, ?, ?, ?)'
   );
-  stmt.run(
-    estateId,
-    categoryId,
-    value,
-    date,
-    note,
-    timePosted,
-    function (error) {
-      if (error !== null) {
-        logError(error);
-        deferred.reject(error);
-      } else {
-        deferred.resolve();
+
+  return new Promise((resolve, reject) => {
+    stmt.run(
+      estateId,
+      categoryId,
+      value,
+      date,
+      note,
+      timePosted,
+      function (error) {
+        if (error !== null) {
+          logError(error);
+          reject(error);
+        } else {
+          resolve();
+        }
       }
-    }
-  );
-  stmt.finalize();
+    );
+    stmt.finalize();
 
-  closeDatabase(db);
-
-  return deferred.promise;
+    closeDatabase(db);
+  });
 }
 
 function insertReadingRevision(id, reading) {
 
   var db = getDatabase();
-  var deferred = q.defer();
-
   var stmt = db.prepare(
     'INSERT INTO reading_revisions'
       + ' (id_reading, value, date, note, time_posted)'
       + ' VALUES (?, ?, ?, ?, ?)'
   );
-  stmt.run(
-    id,
-    reading.value,
-    reading.date,
-    reading.note,
-    reading.time_posted,
-    function (error) {
-      if (error !== null) {
-        logError(error);
-        deferred.reject(error);
-      } else {
-        deferred.resolve();
+
+  return new Promise((resolve, reject) => {
+    stmt.run(
+      id,
+      reading.value,
+      reading.date,
+      reading.note,
+      reading.time_posted,
+      function (error) {
+        if (error !== null) {
+          logError(error);
+          reject(error);
+        } else {
+          resolve();
+        }
       }
-    }
-  );
-  stmt.finalize();
+    );
 
-  closeDatabase(db);
-
-  return deferred.promise;
+    closeDatabase(db);
+  });
 }
 
 function setLogger(pLogger) {
@@ -463,31 +449,29 @@ function setLogger(pLogger) {
 function updateReading(id, newValue, newDate, newNote) {
 
   var db = getDatabase();
-  var deferred = q.defer();
-
   var timePosted = new Date().format('YYYY-MM-DD hh:mm:ss');
-
   var stmt = db.prepare('UPDATE readings SET value=?, date=?, note=?, time_posted=? WHERE id=?');
-  stmt.run(
-    newValue,
-    newDate,
-    newNote,
-    timePosted,
-    id,
-    function (error) {
-      if (error !== null) {
-        logError(error);
-        deferred.reject(error);
-      } else {
-        deferred.resolve();
+
+  return new Promise((resolve, reject) => {
+    stmt.run(
+      newValue,
+      newDate,
+      newNote,
+      timePosted,
+      id,
+      function (error) {
+        if (error !== null) {
+          logError(error);
+          reject(error);
+        } else {
+          resolve();
+        }
       }
-    }
-  );
-  stmt.finalize();
+    );
+    stmt.finalize();
 
-  closeDatabase(db);
-
-  return deferred.promise;
+    closeDatabase(db);
+  });
 }
 
 function createReadingRevision(id, newValue, newDate, newNote) {
@@ -499,28 +483,22 @@ function createReadingRevision(id, newValue, newDate, newNote) {
 
   return getReading(id)
     .then(function (reading) {
-
       return insertReadingRevision(id, reading);
     })
     .then(function () {
-
       return updateReading(id, newValue, newDate, newNote);
     })
     .then(function () {
-
       db.run('COMMIT');
       db.close();
       setDatabase(null);
-
-      return q.when(null);
+      return new Promise(resolve => resolve());
     })
     .catch(function (error) {
-
       db.run('ROLLBACK');
       db.close();
       setDatabase(null);
-
-      return q.when(error);
+      return new Promise((resolve, reject) => reject(error));
     });
 }
 

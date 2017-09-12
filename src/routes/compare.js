@@ -4,7 +4,6 @@
  * Modules.
  **********************************************************************************************************************/
 
-var q = require('q');
 var router = require('express').Router();
 
 require('../utils/array');
@@ -132,7 +131,7 @@ function fetchData(request, templateParams) {
     .then(function (estateName) {
       if (!estateName) {
         indicateError('Invalid estate', templateParams);
-        return q.reject();
+        return new Promise((resolve, reject) => reject());
       }
       templateParams.estate = estateName;
       return dal.getCategory(request.params.categoryId);
@@ -141,7 +140,7 @@ function fetchData(request, templateParams) {
     .then(function (category) {
       if (!category) {
         indicateError('Invalid category', templateParams);
-        return q.reject();
+        return new Promise((resolve, reject) => reject());
       }
       templateParams.category = category.name;
       templateParams.unit = converter.getUnitDisplayFormat(category.unit);
@@ -206,7 +205,7 @@ function renderResult(request, response, next) {
     // Handle errors -- the template may still can be rendered on a non-fatal error.
     .catch(function (error) {
       if (error) {
-        return q.reject(error);
+        return new Promise((resolve, reject) => reject(error));
       }
       response.render('handlederror', templateParams);
     })

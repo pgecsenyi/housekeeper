@@ -4,7 +4,6 @@
  * Modules.
  **********************************************************************************************************************/
 
-var q = require('q');
 var router = require('express').Router();
 
 var converter = require('../utils/converter');
@@ -36,7 +35,7 @@ function fetchData(request, templateParams) {
     .then(function (reading) {
       if (!reading) {
         indicateError('Invalid reading identifier', templateParams);
-        return q.reject();
+        return new Promise((resolve, reject) => reject());
       }
       readingData = reading;
       return dal.getEstateName(readingData.id_estate);
@@ -72,11 +71,11 @@ function redirect(request, response) {
     .then(function (reading) {
       // Reject promise on error.
       if (!reading) {
-        return q.reject();
+        return new Promise((resolve, reject) => reject());
       }
       // Redirect if everything goes well.
       response.redirect('/details/' + reading.id_category);
-      return q.when(null);
+      return new Promise(resolve => resolve());
     });
 }
 
@@ -127,7 +126,7 @@ function renderResult(request, response, next) {
     // Handle errors -- the template may still can be rendered on a non-fatal error.
     .catch(function (error) {
       if (error) {
-        return q.reject(error);
+        return new Promise((resolve, reject) => reject(error));
       }
       response.render('handlederror', templateParams);
     })
@@ -148,17 +147,17 @@ function validateAndStoreInput(request) {
   // Validate reading ID.
   if (!inputValidator.validateId(request.body.readingId)) {
     request.validationError = 'Invalid reading identifier';
-    return q.when(null);
+    return new Promise(resolve => resolve());
   }
   // Validate date.
   if (!inputValidator.validateDate(request.body.readingDate)) {
     request.validationError = 'Invalid date';
-    return q.when(null);
+    return new Promise(resolve => resolve());
   }
   // Validate reading value.
   if (!inputValidator.validateReading(request.body.readingValue)) {
     request.validationError = 'Invalid reading';
-    return q.when(null);
+    return new Promise(resolve => resolve());
   }
 
   // In case everything is right, update reading data in the database.

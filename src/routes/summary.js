@@ -5,7 +5,6 @@
  **********************************************************************************************************************/
 
 var markdown = require('node-markdown').Markdown;
-var q = require('q');
 var router = require('express').Router();
 
 var converter = require('../utils/converter');
@@ -117,7 +116,7 @@ function fetchData(request, templateParams) {
       templateParams.estates = estates;
       if (!verifyEstateId(request.session.estateId, estates)) {
         templateParams.errorWrongEstateId = true;
-        return q.reject();
+        return new Promise((resolve, reject) => reject());
       }
       return dal.getCategories();
     })
@@ -146,7 +145,7 @@ function renderResult(request, response, next) {
     // Handle errors -- the template may still can be rendered on a non-fatal error.
     .catch(function (error) {
       if (error) {
-        return q.reject(error);
+        return new Promise((resolve, reject) => reject(error));
       }
       response.render('summary', templateParams);
     })
