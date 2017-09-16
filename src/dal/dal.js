@@ -48,6 +48,19 @@ function setDatabase(db) {
   openedDb = db;
 }
 
+function runSimpleQuery(db, query) {
+  return new Promise((resolve, reject) =>
+  {
+    db.run(query, err =>
+    {
+      if (err == null)
+        resolve();
+      else
+        reject(err);
+    });
+  });
+}
+
 /*******************************************************************************************************************//**
  * Functions (exported).
  **********************************************************************************************************************/
@@ -428,6 +441,7 @@ function insertReadingRevision(id, reading) {
       reading.note,
       reading.time_posted,
       function (error) {
+        stmt.finalize();
         if (error !== null) {
           logError(error);
           reject(error);
@@ -460,6 +474,7 @@ function updateReading(id, newValue, newDate, newNote) {
       timePosted,
       id,
       function (error) {
+        stmt.finalize();
         if (error !== null) {
           logError(error);
           reject(error);
@@ -468,7 +483,6 @@ function updateReading(id, newValue, newDate, newNote) {
         }
       }
     );
-    stmt.finalize();
 
     closeDatabase(db);
   });
@@ -479,9 +493,10 @@ function createReadingRevision(id, newValue, newDate, newNote) {
   var db = new sqlite3.Database(databasePath);
   setDatabase(db);
 
-  db.run('BEGIN');
-
-  return getReading(id)
+  return runSimpleQuery(db, 'BEGIN')
+    .then(function () {
+      return getReading(id);
+    })
     .then(function (reading) {
       return insertReadingRevision(id, reading);
     })
@@ -489,16 +504,20 @@ function createReadingRevision(id, newValue, newDate, newNote) {
       return updateReading(id, newValue, newDate, newNote);
     })
     .then(function () {
-      db.run('COMMIT');
+      return runSimpleQuery(db, 'COMMIT');
+    })
+    .then(function () {
       db.close();
       setDatabase(null);
       return new Promise(resolve => resolve());
     })
     .catch(function (error) {
-      db.run('ROLLBACK');
-      db.close();
-      setDatabase(null);
-      return new Promise((resolve, reject) => reject(error));
+      return runSimpleQuery(db, 'ROLLBACK')
+        .then(function () {
+          db.close();
+          setDatabase(null);
+          return new Promise((resolve, reject) => reject(error));
+        });
     });
 }
 

@@ -165,8 +165,7 @@ function validateAndStoreInput(request) {
     request.body.readingId,
     request.body.readingValue,
     converter.getDateDatabaseFormat(request.body.readingDate),
-    request.body.readingNote
-  );
+    request.body.readingNote);
 }
 
 /*******************************************************************************************************************//**
