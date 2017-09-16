@@ -13,7 +13,5 @@ Take a look at the `config.json` file. Specify the path where you would like to 
 ## Development environment
 
   * Ubuntu 14.04
-  * Node.js 6.2.0
-  * npm 3.8.9
-  * Visual Studio Code 1.1.1
-  * jslint 0.9.6
+  * Visual Studio Code 1.16.0
+  * Yarn 1.0.0
