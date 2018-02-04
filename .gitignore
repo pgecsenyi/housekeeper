@@ -1,5 +1,8 @@
+# Data.
+/data
+
 # Node modules directories.
-node_modules/
+node_modules
 
 # Editor temporary files.
 *~

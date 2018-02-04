@@ -1,17 +1,15 @@
 # Housekeeper
 
-A web application that helps with storing and monitoring energy consumptions of real estates.
+A web application that can store and display historical data on energy consumption of real estates.
 
 ## Installation and usage
 
-Install the latest versions of _Node.js_ (together with _npm_) on your system. Copy the files from the `src` directory to the directory of your choice. Navigate to the selected directory and issue the following command.
+Install the latest versions of _Node.js_ (together with _npm_ or _Yarn_) on your system. Issue the following command.
 
-    npm install
+    yarn install
 
-Take a look at the `config.json` file. Specify the path where you would like to store the database. After that you can start the server by executing the `npm start` command. Visit the `/install` URL first and add the categories you would like to use, separated by a comma with the unit of measurement in paranthesis after each. Note that currently exactly 3 categories are supported.
+Take a look at the `config.json` file. Specify the path where you would like to store the database. After that you can start the server by executing the `yarn start` command. Visit the `/install` URL first and add the categories you would like to use, separated by a comma with the unit of measurement in paranthesis after each. Note that currently exactly 3 categories are supported.
 
 ## Development environment
 
-  * Ubuntu 14.04
-  * Visual Studio Code 1.16.0
-  * Yarn 1.0.0
+  * Visual Studio Code 1.19.3

@@ -5,13 +5,13 @@
 			"name": "Launch",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceRoot}/bin/www",
+			"program": "${workspaceRoot}/src/bin/www",
 			"stopOnEntry": false,
 			"args": [
         "-c config.json",
         "-d"
       ],
-			"cwd": "${workspaceRoot}",
+			"cwd": "${workspaceRoot}/src",
 			"runtimeExecutable": null,
 			"runtimeArgs": [
 				"--nolazy"
